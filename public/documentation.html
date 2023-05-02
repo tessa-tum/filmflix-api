@@ -31,9 +31,7 @@
           featured or not) about a single movie by title to the user
         </li>
         <li>Return data about a genre (description) by name/title</li>
-        <li>
-          Return data about a director (bio, birth year, death year) by name
-        </li>
+        <li>Return data about a director (bio, birth year) by name</li>
         <li>Allow new users to register</li>
         <li>Allow users to update their user info</li>
         <li>Allow users to add a movie to their list of favorites</li>
@@ -63,14 +61,21 @@
           <td>GET</td>
           <td>-</td>
           <td>-</td>
-          <td>A JSON object holding data about all the movies.</td>
+          <td>
+            A JSON object holding data about all the movies, <br />
+            structured like: {"Title": "String", "Description": "String",<br />
+            "Genre": {"Name": "String", "Description": "String"}, <br />
+            "Director": {"Name": "String", "Bio": "String", "Birthday": "Date"},
+            <br />
+            "Image": "String", "Featured": "Boolean"}
+          </td>
         </tr>
 
         <tr>
-          <td>Return data about a single movie by title</td>
-          <td>/movies/:title</td>
+          <td>Return data about a single movie by title to the user</td>
+          <td>/movies/title/:Title</td>
           <td>GET</td>
-          <td>:title</td>
+          <td>:Title</td>
           <td>-</td>
           <td>A JSON object holding data about a specific movie</td>
         </tr>
@@ -100,59 +105,51 @@
           <td>-</td>
           <td>
             A JSON object holding data about the user to add, <br />
-            structured like { "name": "String", ...}
+            structured like: { "Username": "String","Password": "String", <br />
+            "Email": "String","Birthday": "Date", "FavoriteMovies": [], "_id":
+            "String"}
           </td>
-          <td>
-            A text message confirming the successfull registration of a user
-            account
-          </td>
+          <td>Added data as a JSON object</td>
         </tr>
 
         <tr>
           <td>Allow users to update their user info</td>
-          <td>/users/:id</td>
+          <td>/users/:Username</td>
           <td>PUT</td>
-          <td>:id</td>
-          <td>
-            A JSON object holding data about the info to be updated, <br />
-            structured like { "name": "String", ...}
-          </td>
-          <td>A JSOn object holding data about the updated user info</td>
+          <td>:Username</td>
+          <td>A JSON object holding data about the user info to be updated</td>
+          <td>Updated data as a JSON object</td>
         </tr>
 
         <tr>
           <td>Allow users to add a movie to their list of favorites</td>
-          <td>/users/id/:movieTitle</td>
+          <td>/users/:Username/movies/:MovieID</td>
           <td>POST</td>
-          <td>:movieTitle</td>
+          <td>:Username,:MovieID</td>
           <td>
-            A JSON object holding data about the movie to add, <br />
-            structured like { "Title": "String","Description": "String" ...}
+            A JSON object holding data about the user and the movie to be added
           </td>
-          <td>
-            A text message confirming that a movie was added to the list of
-            favorites
-          </td>
+          <td>Added data as a JSON object</td>
         </tr>
 
         <tr>
           <td>Allow users to remove a movie from their list of favorites</td>
-          <td>/users/id/:movieTitle</td>
+          <td>/users/:Username/movies/:MovieID</td>
           <td>DELETE</td>
-          <td>:movieTitle</td>
-          <td>-</td>
+          <td>:Username,:MovieID</td>
           <td>
-            A text message confirming that a movie was removed from the list of
-            favorites
+            A JSON object holding data about the user and the movie to be
+            removed
           </td>
+          <td>Removed data as a JSON object</td>
         </tr>
 
         <tr>
           <td>Allow existing users to deregister</td>
-          <td>/users/:id</td>
+          <td>/users/:Username</td>
           <td>DELETE</td>
-          <td>:id</td>
-          <td>-</td>
+          <td>:Username</td>
+          <td>A JSON object holding data about the user to be deleted</td>
           <td>
             A text message confirming the successfull deletion of the user
             account
