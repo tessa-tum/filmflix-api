@@ -63,7 +63,8 @@
           <td>-</td>
           <td>
             A JSON object holding data about all the movies, <br />
-            structured like: {"Title": "String", "Description": "String",<br />
+            structured like: {"_id": "String", "Title": "String", "Description":
+            "String",<br />
             "Genre": {"Name": "String", "Description": "String"}, <br />
             "Director": {"Name": "String", "Bio": "String", "Birthday": "Date"},
             <br />
@@ -105,11 +106,11 @@
           <td>-</td>
           <td>
             A JSON object holding data about the user to add, <br />
-            structured like: { "Username": "String","Password": "String", <br />
-            "Email": "String","Birthday": "Date", "FavoriteMovies": [], "_id":
-            "String"}
+            structured like: {"Username": "String","Password": "String", <br />
+            "Email": "String","Birthday": "Date", "FavoriteMovies": ["_id":
+            "String"]}
           </td>
-          <td>Added data as a JSON object</td>
+          <td>Added data as a JSON object, including a UserID</td>
         </tr>
 
         <tr>
@@ -126,10 +127,11 @@
           <td>/users/:Username/movies/:MovieID</td>
           <td>POST</td>
           <td>:Username,:MovieID</td>
+          <td>-</td>
           <td>
-            A JSON object holding data about the user and the movie to be added
+            A JSON object holding data about the user and the updated list of
+            favorite movies
           </td>
-          <td>Added data as a JSON object</td>
         </tr>
 
         <tr>
@@ -137,11 +139,11 @@
           <td>/users/:Username/movies/:MovieID</td>
           <td>DELETE</td>
           <td>:Username,:MovieID</td>
+          <td>-</td>
           <td>
-            A JSON object holding data about the user and the movie to be
-            removed
+            A JSON object holding data about the user and the updated list of
+            favorite movies
           </td>
-          <td>Removed data as a JSON object</td>
         </tr>
 
         <tr>
@@ -149,7 +151,7 @@
           <td>/users/:Username</td>
           <td>DELETE</td>
           <td>:Username</td>
-          <td>A JSON object holding data about the user to be deleted</td>
+          <td>-</td>
           <td>
             A text message confirming the successfull deletion of the user
             account
