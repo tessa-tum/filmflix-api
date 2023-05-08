@@ -45,14 +45,23 @@ let auth = require("./auth.js")(app);
 const passport = require("passport");
 require("./passport.js");
 
+//mongoose
+// .connect("mongodb://127.0.0.1:27017/myFlixDB", {
+//    useNewUrlParser: true,
+//    useUnifiedTopology: true,
+//  })
+//  .then(() => {
+//    console.log("Connected to database");
+//  });
+
 mongoose
-  .connect("mongodb://127.0.0.1:27017/myFlixDB", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => {
-    console.log("Connected to database");
-  });
+.connect( process.env.CONNECTION_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => {
+  console.log("Connected to database");
+});
 
 // log.txt
 const accessLogStream = fs.createWriteStream(path.join(__dirname, "log.txt"), {
