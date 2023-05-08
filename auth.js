@@ -20,20 +20,30 @@ let generateJWTToken = (user) => {
 };
 
 // allow registered users to login (POST),
-// authenticate (using strategies from passport.js))
+// authenticate (using strategies from passport.js)
 module.exports = (router) => {
   router.post("/login", (req, res) => {
-    console.log('Received login request:', req.body);
+    console.log("Login request received:", req.body); 
     passport.authenticate("local", { session: false }, (error, user, info) => {
-      if (error || !user) {
-        console.log(error)
+      if (error) {
+        console.log("Error:", error);
         return res.status(400).json({
-          message: "Something is not right",
+          message: "Something went wrong",
           user: user,
         });
       }
+
+      if (!user) {
+        console.log("No such user:", info);
+        return res.status(400).json({
+          message: "Incorrect username or password",
+          user: user,
+        });
+      }
+
       req.login(user, { session: false }, (error) => {
         if (error) {
+          console.log("Login error:", error);
           res.send(error);
         }
         let token = generateJWTToken(user.toJSON());
