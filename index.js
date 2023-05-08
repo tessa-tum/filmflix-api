@@ -30,9 +30,9 @@ app.use(
     origin: (origin, callback) => {
       if (!origin) return callback(null, true);
       if (allowedOrigins.indexOf(origin) === -1) {
-        // If a specific origin isn’t found on the list of allowed origins
+        // if a specific origin isn’t found on the list of allowed origins
         let message =
-          "The CORS policy for this application doesn’t allow access from origin " +
+          "The CORS policy for this application does not allow access from origin" +
           origin;
         return callback(new Error(message), false);
       }
@@ -44,6 +44,8 @@ app.use(
 let auth = require("./auth.js")(app);
 const passport = require("passport");
 require("./passport.js");
+
+// add MongoDB conncetion
 
 //mongoose
 // .connect("mongodb://127.0.0.1:27017/myFlixDB", {
@@ -73,7 +75,7 @@ app.use(morgan("common", { stream: accessLogStream }));
 
 // index page
 app.get("/", (req, res) => {
-  res.send("Welcome to my movie API!");
+  res.send("Welcome to the filmflix API");
 });
 
 // return list of all movies to the user
@@ -83,7 +85,7 @@ app.get(
   async (req, res) => {
     try {
       const movies = await Movies.find();
-      res.status(201).json(movies);
+      res.status(200).json(movies);
     } catch (error) {
       console.error(error);
       res.status(500).send("Error: " + error);
