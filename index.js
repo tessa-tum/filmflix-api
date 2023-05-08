@@ -17,9 +17,8 @@ const Users = Models.User;
 
 let allowedOrigins = [
   "http://localhost:8080",
-  "https://git.heroku.com/myflix-api.git",
-  "https://myflix-api.herokuapp.com",
-  "http://testsite.com",
+  "https://git.heroku.com/filmflix-api.git",
+  "https://filmflix-api.herokuapp.com",
 ];
 
 app.use(bodyParser.json());
