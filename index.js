@@ -15,7 +15,12 @@ const path = require("path");
 const Movies = Models.Movie;
 const Users = Models.User;
 
-let allowedOrigins = ["http://localhost:8080"];
+let allowedOrigins = [
+  "http://localhost:8080",
+  "https://git.heroku.com/myflix-api.git",
+  "https://myflix-api.herokuapp.com",
+  "http://testsite.com",
+];
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -287,18 +292,18 @@ app.delete(
   async (req, res) => {
     try {
       const updatedMovielist = await Users.findOneAndUpdate(
-      { Username: req.params.Username },
-      {
-        $pull: { FavoriteMovies: req.params.MovieID },
-      },
-      { new: true }
-    );
-    res.json(updatedMovielist)
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Error: " + error);
+        { Username: req.params.Username },
+        {
+          $pull: { FavoriteMovies: req.params.MovieID },
+        },
+        { new: true }
+      );
+      res.json(updatedMovielist);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("Error: " + error);
+    }
   }
-}
 );
 
 // allow existing users to deregister
@@ -307,17 +312,20 @@ app.delete(
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     try {
-      const deletedUser = await Users.findOneAndRemove({ Username: req.params.Username });
-          if (!deletedUser) {
-      res.status(400).send(`User ${req.params.Username} was not found`);
-    } else {
-      res.status(200).send(`User ${req.params.Username} has been removed`)
+      const deletedUser = await Users.findOneAndRemove({
+        Username: req.params.Username,
+      });
+      if (!deletedUser) {
+        res.status(400).send(`User ${req.params.Username} was not found`);
+      } else {
+        res.status(200).send(`User ${req.params.Username} has been removed`);
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("Error: " + error);
     }
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Error: " + error);
   }
-});
+);
 
 // OTHER
 
@@ -329,6 +337,6 @@ app.use((err, req, res, next) => {
 
 // listen for requests
 const port = process.env.PORT || 8080;
-app.listen(port, '0.0.0.0',() => {
- console.log('Listening on Port ' + port);
+app.listen(port, "0.0.0.0", () => {
+  console.log("Listening on Port " + port);
 });
