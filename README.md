@@ -11,7 +11,7 @@ filmflix API is a RESTful API that interacts with a database that stores data ab
 
 1. Clone repository:
 ```bash
-git clone https://github.com/yourusername/myflix-api.git
+git clone https://github.com/yourusername/filmflix-api.git
 ```
 2. Navigate to the project's root directory and run npm install to install dependencies.
 3. Run MongoDB on your local machine.

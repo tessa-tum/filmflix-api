@@ -28,7 +28,7 @@ module.exports = (router) => {
       if (error) {
         console.log("Error:", error);
         return res.status(400).json({
-          message: "Something went wrong",
+          message: "Something went wrong" + info,
           user: user,
         });
       }

@@ -198,7 +198,7 @@ app.get(
 app.post(
   "/users",
   [
-    check("Username", "Username is required").isLength({ min: 5 }),
+    check("Username", "Username should be at least 5 characters").isLength({ min: 5 }),
     check(
       "Username",
       "Username contains non alphanumeric characters - not allowed."
@@ -230,7 +230,7 @@ app.post(
         Email: req.body.Email,
         Birthday: req.body.Birthday,
       });
-      res.status(201).json(newUser);
+      res.status(201).send("User has been successfully created");
     } catch (error) {
       console.error(error);
       res.status(500).send("Error: " + error);
