@@ -17,6 +17,7 @@ const Users = Models.User;
 
 let allowedOrigins = [
   "http://localhost:8080",
+  "http://localhost:1234",
   "https://git.heroku.com/filmflix-api.git",
   "https://filmflix-api.herokuapp.com",
   "https://pure-ocean-96059.herokuapp.com/",
