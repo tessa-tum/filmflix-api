@@ -48,23 +48,24 @@ let auth = require("./auth.js")(app);
 const passport = require("passport");
 require("./passport.js");
 
-//mongoose
+// mongoose
 // .connect("mongodb://127.0.0.1:27017/myFlixDB", {
-//    useNewUrlParser: true,
-//    useUnifiedTopology: true,
-//  })
-//  .then(() => {
-//    console.log("Connected to database");
-//  });
+// useNewUrlParser: true,
+// useUnifiedTopology: true,
+// })
+// .then(() => {
+// console.log("Connected to database");
+// });
 
 // add MongoDB conncetion
+
 mongoose
 .connect( process.env.CONNECTION_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
+ useNewUrlParser: true,
+ useUnifiedTopology: true,
 })
 .then(() => {
-  console.log("Connected to database");
+console.log("Connected to database");
 });
 
 // log.txt
@@ -248,7 +249,7 @@ app.post(
     try {
       const updatedUser = await Users.findOneAndUpdate(
         { Username: req.params.Username },
-        { $addToSet: { favoriteMovies: req.params.MovieID } },
+        { $addToSet: { FavoriteMovies: req.params.MovieID } },
         { new: true }
       );
       res.json(updatedUser);
