@@ -61,8 +61,8 @@ require("./passport.js");
 
 mongoose
 .connect( process.env.CONNECTION_URI, {
- useNewUrlParser: true,
- useUnifiedTopology: true,
+useNewUrlParser: true,
+useUnifiedTopology: true,
 })
 .then(() => {
 console.log("Connected to database");
@@ -284,6 +284,7 @@ app.put(
             Username: req.body.Username,
             Password: req.body.Password,
             Email: req.body.Email,
+            Birthday: req.body.Birthday
           },
         },
         { new: true }
@@ -305,14 +306,14 @@ app.delete(
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     try {
-      const updatedMovielist = await Users.findOneAndUpdate(
+      const updatedUser = await Users.findOneAndUpdate(
         { Username: req.params.Username },
         {
           $pull: { FavoriteMovies: req.params.MovieID },
         },
         { new: true }
       );
-      res.json(updatedMovielist);
+      res.json(updatedUser);
     } catch (error) {
       console.error(error);
       res.status(500).send("Error: " + error);
