@@ -16,27 +16,32 @@ const Movies = Models.Movie;
 const Users = Models.User;
 
 let allowedOrigins = [
-"http://localhost:8080",
-"http://localhost:1234",
-"https://git.heroku.com/filmflix-api.git",
-"https://filmflix-api.herokuapp.com",
-"https://filmflix-project.netlify.app",
+  "http://localhost:8080",
+  "http://localhost:1234",
+  "https://git.heroku.com/filmflix-api.git",
+  "https://filmflix-api.herokuapp.com",
+  "https://filmflix-project.netlify.app",
 ];
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-app.use(cors({
-  origin: (origin, callback) => {
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.indexOf(origin) === -1) { // If a specific origin isn’t found on the list of allowed origins
-      let message = "The CORS policy for this application does not allow access from origin " + origin;
-      return callback(new Error(message), false);
-    }
-    return callback(null, true);
-  }
-}));
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.indexOf(origin) === -1) {
+        // If a specific origin isn’t found on the list of allowed origins
+        let message =
+          "The CORS policy for this application does not allow access from origin " +
+          origin;
+        return callback(new Error(message), false);
+      }
+      return callback(null, true);
+    },
+  })
+);
 
 let auth = require("./auth.js")(app);
 const passport = require("passport");
@@ -54,13 +59,13 @@ require("./passport.js");
 // add MongoDB conncetion
 
 mongoose
-.connect( process.env.CONNECTION_URI, {
-useNewUrlParser: true,
-useUnifiedTopology: true,
-})
-.then(() => {
-console.log("Connected to database");
-});
+  .connect(process.env.CONNECTION_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log("Connected to database");
+  });
 
 // log.txt
 const accessLogStream = fs.createWriteStream(path.join(__dirname, "log.txt"), {
@@ -78,7 +83,7 @@ app.get("/", (req, res) => {
 // return list of all movies to the user
 app.get(
   "/movies",
-  passport.authenticate("jwt",{session:false}),
+  passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     try {
       const movies = await Movies.find();
@@ -195,7 +200,9 @@ app.get(
 app.post(
   "/users",
   [
-    check("Username", "Username should be at least 5 characters").isLength({ min: 5 }),
+    check("Username", "Username should be at least 5 characters").isLength({
+      min: 5,
+    }),
     check(
       "Username",
       "Username contains non alphanumeric characters - not allowed."
@@ -271,14 +278,17 @@ app.put(
   ],
   async (req, res) => {
     try {
+      // hash passwords
+      let hashedPassword = Users.hashPassword(req.body.Password);
+
       const updatedUser = await Users.findOneAndUpdate(
         { Username: req.params.Username },
         {
           $set: {
             Username: req.body.Username,
-            Password: req.body.Password,
+            Password: hashedPassword,
             Email: req.body.Email,
-            Birthday: req.body.Birthday
+            Birthday: req.body.Birthday,
           },
         },
         { new: true }
