@@ -21,6 +21,7 @@ let allowedOrigins = [
   "https://git.heroku.com/filmflix-api.git",
   "https://filmflix-api.herokuapp.com",
   "https://filmflix-project.netlify.app",
+  "http://localhost:4200",
 ];
 
 app.use(bodyParser.json());
