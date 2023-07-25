@@ -15,34 +15,37 @@ const path = require("path");
 const Movies = Models.Movie;
 const Users = Models.User;
 
-let allowedOrigins = [
-  "http://localhost:8080",
-  "http://localhost:1234",
-  "https://git.heroku.com/filmflix-api.git",
-  "https://filmflix-api.herokuapp.com",
-  "https://filmflix-project.netlify.app",
-  "http://localhost:4200",
-];
+// let allowedOrigins = [
+// "http://localhost:8080",
+// "http://localhost:1234",
+// "https://git.heroku.com/filmflix-api.git",
+//"https://filmflix-api.herokuapp.com",
+// "https://filmflix-project.netlify.app",
+// "http://localhost:4200",
+// ];
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      if (!origin) return callback(null, true);
-      if (allowedOrigins.indexOf(origin) === -1) {
-        // If a specific origin isn’t found on the list of allowed origins
-        let message =
-          "The CORS policy for this application does not allow access from origin " +
-          origin;
-        return callback(new Error(message), false);
-      }
-      return callback(null, true);
-    },
-  })
-);
+// allow all origins (atm)
+app.use(cors());
+
+// restrict origins
+// app.use(cors({
+// origin: (origin, callback) => {
+// if (!origin) return callback(null, true);
+// if (allowedOrigins.indexOf(origin) === -1) {
+// If a specific origin isn’t found on the list of allowed origins
+//let message =
+// "The CORS policy for this application does not allow access from origin " +
+// origin;
+// return callback(new Error(message), false);
+//}
+//return callback(null, true);
+// },
+// })
+// );
 
 let auth = require("./auth.js")(app);
 const passport = require("passport");
