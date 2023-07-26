@@ -238,10 +238,10 @@ app.post(
         Email: req.body.Email,
         Birthday: req.body.Birthday,
       });
-      res.status(201).send("User has been successfully created");
+      res.status(201).json("User has been successfully created");
     } catch (error) {
       console.error(error);
-      res.status(500).send("Error: " + error);
+      res.status(500).json("Error: " + error);
     }
   }
 );
