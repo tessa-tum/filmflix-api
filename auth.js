@@ -1,16 +1,14 @@
-// auth.js creates login-endpoint for registered users,
-// authenticates login requests using basic HTTP authentication,
-// generates a JWT for the user
-
-// setup
 const jwtSecret = "your_jwt_secret";
-
 const jwt = require("jsonwebtoken"),
   passport = require("passport");
 
 require("./passport");
 
-// generate JWT Token
+/**
+ * generate a JWT token that is signed with the JWT secret (expires in 7 days)
+ * @param {User} user - the user object that will be encoded in the JWT
+ * @returns {string} the JWT token
+ */
 let generateJWTToken = (user) => {
   return jwt.sign(user, jwtSecret, {
     subject: user.Username,
@@ -19,11 +17,15 @@ let generateJWTToken = (user) => {
   });
 };
 
-// allow registered users to login (POST),
-// authenticate (using strategies from passport.js)
+/**
+* add a route handler for the “/login” endpoint to the router,
+* use passport to authenticate the user with the local strategy,
+* and generate a JWT token if successful
+@param {Object} router - the router object to attach the route handler to
+*/
 module.exports = (router) => {
   router.post("/login", (req, res) => {
-    console.log("Login request received:", req.body); 
+    // console.log("Login request received:", req.body);
     passport.authenticate("local", { session: false }, (error, user, info) => {
       if (error) {
         console.log("Error:", error);

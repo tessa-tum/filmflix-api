@@ -1,5 +1,3 @@
-// SETUP
-
 const express = require("express");
 const app = express();
 const { check, validationResult } = require("express-validator");
@@ -11,7 +9,6 @@ const Models = require("./models.js");
 const cors = require("cors");
 const fs = require("fs");
 const path = require("path");
-
 const Movies = Models.Movie;
 const Users = Models.User;
 
@@ -28,8 +25,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-// allow all origins (atm)
-app.use(cors());
+app.use(cors()); // allow all origins (atm)
 
 // restrict origins
 // app.use(cors({
@@ -61,7 +57,6 @@ require("./passport.js");
 // });
 
 // add MongoDB conncetion
-
 mongoose
   .connect(process.env.CONNECTION_URI, {
     useNewUrlParser: true,
@@ -77,14 +72,20 @@ const accessLogStream = fs.createWriteStream(path.join(__dirname, "log.txt"), {
 });
 app.use(morgan("common", { stream: accessLogStream }));
 
-// GET REQUESTS
-
-// index page
+/**
+ * GET welcome message 
+ */
 app.get("/", (req, res) => {
   res.send("Welcome to the filmflix API");
 });
 
-// return list of all movies to the user
+/**
+ * GET a list of all movies
+ * use Passport middleware to authenticate user with a JWT
+ * @param {Object} req - the Express request object
+ * @param {Object} res - the Express response object
+ * @returns {Object} the response JSON object
+ */
 app.get(
   "/movies",
   passport.authenticate("jwt", { session: false }),
@@ -99,7 +100,13 @@ app.get(
   }
 );
 
-// return data about a single movie by title to the user
+/**
+ * GET a single movie by its title
+ * use Passport middleware to authenticate user with a JWT
+ * @param {Object} req - the Express request object
+ * @param {Object} res - the Express response object
+ * @returns {Object} the response JSON object
+ */
 app.get(
   "/movies/title/:Title",
   passport.authenticate("jwt", { session: false }),
@@ -118,7 +125,13 @@ app.get(
   }
 );
 
-// return data about a single movie by ID to the user
+/**
+ * GET a single movie by its ID
+ * use Passport middleware to authenticate user with a JWT
+ * @param {Object} req - the Express request object
+ * @param {Object} res - the Express response object
+ * @returns {Object} the response JSON object
+ */
 app.get(
   "/movies/:_id",
   passport.authenticate("jwt", { session: false }),
@@ -133,8 +146,13 @@ app.get(
       });
   }
 );
-
-// return data about a genre by name
+/**
+ * GET a movie genre by name
+ * use Passport middleware to authenticate user with a JWT
+ * @param {Object} req - the Express request object
+ * @param {Object} res - the Express response object
+ * @returns {Object} the response JSON object
+ */
 app.get(
   "/movies/genre/:genreName",
   passport.authenticate("jwt", { session: false }),
@@ -155,7 +173,13 @@ app.get(
   }
 );
 
-// return data about a director by name
+/**
+ * GET a movie director by name
+ * use Passport middleware to authenticate user with a JWT
+ * @param {Object} req - the Express request object
+ * @param {Object} res - the Express response object
+ * @returns {Object} the response JSON object
+ */
 app.get(
   "/movies/directors/:directorName",
   passport.authenticate("jwt", { session: false }),
@@ -176,7 +200,13 @@ app.get(
   }
 );
 
-// get all users
+/**
+ * GET all users
+ * use Passport middleware to authenticate user with a JWT
+ * @param {Object} req - The Express request object
+ * @param {Object} res - The Express response object
+ * @returns {Object} The response JSON object
+ */
 app.get(
   "/users",
   passport.authenticate("jwt", { session: false }),
@@ -195,7 +225,13 @@ app.get(
   }
 );
 
-// get a user by username
+/**
+ * GET a user by username
+ * use Passport middleware to authenticate user with a JWT
+ * @param {Object} req - The Express request object
+ * @param {Object} res - The Express response object
+ * @returns {Object} The response JSON object
+ */
 app.get(
   "/users/:Username",
   passport.authenticate("jwt", { session: false }),
@@ -214,9 +250,12 @@ app.get(
   }
 );
 
-// POST REQUESTS
-
-// allow new users to register
+/**
+ * POST | allow new users to register
+ * @param {Object} req - the Express request object
+ * @param {Object} res - the Express response object
+ * @returns {Object} the response JSON object
+ */
 app.post(
   "/users",
   [
@@ -238,8 +277,7 @@ app.post(
       return res.status(422).json({ errors: errors.array() });
     }
 
-    // hash passwords
-    let hashedPassword = Users.hashPassword(req.body.Password);
+    let hashedPassword = Users.hashPassword(req.body.Password);  // hash passwords
 
     // search database for requested username and either throw error message or create new user
     try {
@@ -254,7 +292,7 @@ app.post(
         Email: req.body.Email,
         Birthday: req.body.Birthday,
       });
-      res.status(201).json("User has been successfully created");
+      res.status(201).json("User has been successfully created. Please log in!");
     } catch (error) {
       console.error(error);
       res.status(500).json("Error: " + error);
@@ -262,7 +300,13 @@ app.post(
   }
 );
 
-// allow users to add a movie to a their list of favorites
+/**
+ * POST | add a movie to a user's list of favorites
+ * use Passport middleware to authenticate user with a JWT
+ * @param {Object} req - the Express request object
+ * @param {Object} res - the Express response object
+ * @returns {Object} the updated user object JSON
+ */
 app.post(
   "/users/:Username/movies/:MovieID",
   passport.authenticate("jwt", { session: false }),
@@ -281,9 +325,14 @@ app.post(
   }
 );
 
-// PUT REQUESTS
+/**
+ * PUT | allow users to update their info, by username
+ * use Passport middleware to authenticate user with a JWT
+ * @param {Object} req - the Express request object
+ * @param {Object} res - the Express response object
+ * @returns {Object} the updated user object JSON
+ */
 
-// allow users to update their info, by username
 app.put(
   "/users/:Username",
   passport.authenticate("jwt", { session: false }),
@@ -322,9 +371,14 @@ app.put(
   }
 );
 
-// DELETE REQUESTS
+/**
+ * DELETE | allow users to remove a movie from their list of favorites
+ * use Passport middleware to authenticate user with a JWT
+ * @param {Object} req - the Express request object
+ * @param {Object} res - the Express response object
+ * @returns {Object} the updated user object JSON
+ */
 
-// allow users to remove a movie from their list of favorites
 app.delete(
   "/users/:Username/movies/:MovieID",
   passport.authenticate("jwt", { session: false }),
@@ -345,7 +399,13 @@ app.delete(
   }
 );
 
-// allow existing users to deregister
+/**
+ * DELETE | allow existing users to deregister
+ * use Passport middleware to authenticate user with a JWT
+ * @param {Object} req - the Express request object
+ * @param {Object} res - the Express response object
+ * @returns {string} a success or error message
+ */
 app.delete(
   "/users/:Username",
   passport.authenticate("jwt", { session: false }),
@@ -365,8 +425,6 @@ app.delete(
     }
   }
 );
-
-// OTHER
 
 // error-handler to log application-level errors
 app.use((err, req, res, next) => {
