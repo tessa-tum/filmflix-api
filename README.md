@@ -22,6 +22,7 @@ Find the deployed app [here](https://filmflix-api.herokuapp.com/) :sparkles:
 - Express
 - MongoDB (MongoDB Community Server, Mongo Shell, MongoDB Database Tools)
 - Endpoint testing with Postman
+- JSDoc for documentation
 - Deployed to Heroku
 
 ### Dependencies
