@@ -9,7 +9,7 @@ Find the Angular client repo [here](https://github.com/tessa-tum/filmflix-Angula
 
 Find the deployed app [here](https://filmflix-api.herokuapp.com/) :sparkles:
 
-## Build with
+## Built with
 
 ### Languages
 
