@@ -4,6 +4,11 @@
 
 filmflix API is a RESTful API that interacts with a database that stores data about a variety of movies. The application provides users with access to information about different movies, directors, and genres. Users will be able to sign up, update their personal information, and create as well as edit a list of their favorite movies.
 
+Find the React client repo [here](https://github.com/tessa-tum/filmflix-client).
+Find the Angular client repo [here](https://github.com/tessa-tum/filmflix-Angular-client).
+
+Find the deployed app [here](https://filmflix-api.herokuapp.com/) :sparkles:
+
 ## Build with
 
 ### Languages
@@ -40,10 +45,9 @@ filmflix API is a RESTful API that interacts with a database that stores data ab
 - Contains two collections: 'users' and 'movies' with various documents
 - Build with "code first" approach: first design endpoints, then design database
 
-## How to run
+## How to run 
 
-- For a live test of given API endpoints visit https://filmflix-api.herokuapp.com/.
-- You can also clone the repository and test it on your local machine using Postman.
+### Start with Node.js or Nodemon
 
 1. Clone repository:
 ```bash
@@ -51,7 +55,7 @@ git clone https://github.com/yourusername/filmflix-api.git
 ```
 2. Navigate to the project's root directory and run npm install to install dependencies.
 3. Run MongoDB on your local machine.
-4. In the root directory, create a new .env file.
+4. In the root directory, create a new .env file. (:exclamation: needs to be done to have a MongoDB `CONNECTION_URI` variable)
 5. Add your MongoDB connection URI at CONNECTION_URI.
 6. Run npm start.
 7. Go to http://localhost:8080/ in your browser to access API endpoints.
@@ -70,3 +74,10 @@ git clone https://github.com/yourusername/filmflix-api.git
 | /users/:Username/movies/:MovieID | POST   | Add a movie to a user's list of favorites           |
 | /users/:Username/movies/:MovieID | DELETE | Delete a movie from a user's list of favorites      |
 | /users/:Username                 | DELETE | Delete a user                                       |
+
+
+#### Test endpoints 
+- With Postman (https://www.postman.com/)
+  - `cd` into directory and start Node.js repl terminal with `node index.js` or `npm run dev` if you use Nodemon
+  - go to Postman and test the endpoints
+- For a live test of given API endpoints visit https://filmflix-api.herokuapp.com/.
