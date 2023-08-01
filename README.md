@@ -4,7 +4,7 @@
 
 filmflix API is a RESTful API that interacts with a database that stores data about a variety of movies. The application provides users with access to information about different movies, directors, and genres. Users will be able to sign up, update their personal information, and create as well as edit a list of their favorite movies.
 
-Find the React client repo [here](https://github.com/tessa-tum/filmflix-client).
+Find the React client repo [here](https://github.com/tessa-tum/filmflix-client).<br>
 Find the Angular client repo [here](https://github.com/tessa-tum/filmflix-Angular-client).
 
 Find the deployed app [here](https://filmflix-api.herokuapp.com/) :sparkles:
@@ -76,7 +76,7 @@ git clone https://github.com/yourusername/filmflix-api.git
 | /users/:Username                 | DELETE | Delete a user                                       |
 
 
-#### Test endpoints 
+### Test endpoints 
 - With Postman (https://www.postman.com/)
   - `cd` into directory and start Node.js repl terminal with `node index.js` or `npm run dev` if you use Nodemon
   - go to Postman and test the endpoints
